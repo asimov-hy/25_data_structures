@@ -98,24 +98,26 @@ class stock_manager:
 
 
 
-stock_manager = stock_manager()
-while True:
-    try:
-        user_input = input().split()
-    except EOFError:
-        break  # Stop the loop when input ends
 
-    if not user_input:
-        continue
+# Fast CLI interface
+def main():
+    sm = stock_manager()
+    import sys
+    for line in sys.stdin:
+        args = line.strip().split()
+        if not args:
+            continue
 
-    cmd = user_input[0]
+        cmd = args[0]
+        if cmd == "register_stock":
+            sm.register_stock(int(args[1]))
+        elif cmd == "place_buy_order":
+            sm.place_buy_order(int(args[1]), int(args[2]), int(args[3]))
+        elif cmd == "place_sell_order":
+            sm.place_sell_order(int(args[1]), int(args[2]), int(args[3]))
+        elif cmd == "print_all_stocks":
+            sm.print_all_stocks()
+            break
 
-    if cmd == "register_stock":
-        stock_manager.register_stock(int(user_input[1]))
-    elif cmd == "place_buy_order":
-        stock_manager.place_buy_order(int(user_input[1]), int(user_input[2]), int(user_input[3]))
-    elif cmd == "place_sell_order":
-        stock_manager.place_sell_order(int(user_input[1]), int(user_input[2]), int(user_input[3]))
-    elif cmd == "print_all_stocks":
-        stock_manager.print_all_stocks()
-        break
+if __name__ == "__main__":
+    main()
