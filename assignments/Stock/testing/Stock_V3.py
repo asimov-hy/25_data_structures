@@ -37,3 +37,4 @@ class stock_manager:
             raise Exception("Priority queue is empty.")
         item = self._data.pop(0)
         return (item._price, item._quantity)
+
