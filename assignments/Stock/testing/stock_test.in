@@ -1,0 +1,6 @@
+register_stock 1
+register_stock 2
+place_sell_order 1 10 100
+place_buy_order 1 10 100
+place_sell_order 2 20 200
+print_all_stocks
