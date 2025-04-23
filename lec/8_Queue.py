@@ -1,3 +1,9 @@
+class Empty(Exception):
+    """Error attempting to access an element from an empty container."""
+    pass
+
+#------------------------------------------------------------------------------------
+
 class ArrayQueue:
     """FIFO queue implementation using a Python list as underlying storage"""
     DEFAULT_CAPACITY = 10   # moderate capacity for all new queues
