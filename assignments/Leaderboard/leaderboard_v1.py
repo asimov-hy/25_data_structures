@@ -10,18 +10,32 @@
 # Implement the following methods for the Leaderboard class:
 
 class leaderboard:
+
+    # define item
+    class _score:
+        __slots__ = ['player_id', 'score']
+
+        def __init__(self, player_id, score):
+            self.player_id = player_id
+            self.score = score
+
     def __init__(self):
-        self.scoreboard = {}  # key(player_id): value(score)
+        self._scoreboard = []  # key(player_id): value(score)
 
 # add_score(player_id: int, score: int) 
 #   -> int: Adds a player's score to the leaderboard. If the player already exists, their score is updated. 
 #       The method should return the player's rank after adding the score.
     def add_score(self, player_id: int, score: int):
-        # add score
-        self.scoreboard[player_id] = score
-        # sort rank
-        self.scoreboard = dict(sorted(self.scoreboard.items(), key=lambda item: item[1])) 
-        # return rank
+        # find player_id and overwrite, if not add
+        for score in self._scoreboard:              #O(n)
+            if score.player_id == player_id:    
+                score.score = score
+                break
+            else:
+                self._scoreboard.append(self._score(player_id, score))
+                break
+        # sort and find rank - same rank is possible
+        self._scoreboard.sort(key=lambda x: x.score, reverse=True)
         return rank
 
 # get_rank(player_id: int) 
