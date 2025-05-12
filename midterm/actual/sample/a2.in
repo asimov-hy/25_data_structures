@@ -1,0 +1,13 @@
+heap
+heap add 5 A
+heap add 9 C
+heap add 3 B
+heap add 7 D
+heap remove_min
+heap remove_min
+heap len
+heap remove_min
+heap remove_min
+heap is_empty
+heap remove_min
+heap print

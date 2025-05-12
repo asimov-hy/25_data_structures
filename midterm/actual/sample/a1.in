@@ -1,0 +1,9 @@
+base
+heap init 2 5 6 9 7 1
+heap print
+heap upheap 5
+heap print
+heap init 7 5 6 9
+heap print
+heap downheap 0
+heap print
