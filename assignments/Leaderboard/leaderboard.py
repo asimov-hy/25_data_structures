@@ -102,31 +102,27 @@ class leaderboard:
 #   output the score of the player with the given rank, 
 #   or -1 if the rank is invalid, followed by a single newline.
 
-
 if __name__ == "__main__":
 
     leaderboard_instance = leaderboard()
+    while True:
+        try:
+            user_input = input().split()
+        except EOFError:
+            break  # Stop the loop when input ends
 
-    with open(r"assignments\Leaderboard\test.0.0.in", "r") as file:
-        commands = file.readlines()
+        if not user_input:
+            continue
 
-    with open("test.0.0.out", "w") as output_file:
-        for command in commands:
-            parts = command.strip().split()
-            cmd = parts[0]
+        cmd = user_input[0]
 
-            if cmd == "add_score":
-                player_id = int(parts[1])
-                score = int(parts[2])
-                #output_file.write(f"{leaderboard_instance.add_score(player_id, score)}")
-                print(f"{leaderboard_instance.add_score(player_id, score)}")
-
-            elif cmd == "get_rank":
-                player_id = int(parts[1])
-                #output_file.write(f"{leaderboard_instance.get_rank(player_id)}")
-                print(f"{leaderboard_instance.get_rank(player_id)}")
-
-            elif cmd == "get_score_by_rank":
-                rank = int(parts[1])
-                #output_file.write(f"{leaderboard_instance.get_score_by_rank(rank)}")
-                print(f"{leaderboard_instance.get_score_by_rank(rank)}")
+        if cmd == "add_score":
+            player_id = int(user_input[1])
+            score = int(user_input[2])
+            print(leaderboard_instance.add_score(player_id, score))
+        elif cmd == "get_rank":
+            player_id = int(user_input[1])
+            print(leaderboard_instance.get_rank(player_id))
+        elif cmd == "get_score_by_rank":
+            rank = int(user_input[1])
+            print(leaderboard_instance.get_score_by_rank(rank))
