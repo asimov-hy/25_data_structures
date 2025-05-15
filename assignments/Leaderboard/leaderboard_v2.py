@@ -1,129 +1,187 @@
-class Leaderboard:
-    class _Node:
-        __slots__ = ('score', 'count', 'size', 'left', 'right')
+class BST:
+
+    class score_node:
+        __slots__ = ['score', 'players', 'size', 'left', 'right']
+
         def __init__(self, score):
-            self.score = score      # the score value
-            self.count = 1          # how many players have this exact score
-            self.size = 1           # total players in this subtree (including duplicates)
-            self.left = None        # lower scores
-            self.right = None       # higher scores
+            self.score = score  # key = score of node
+            self.players = 1  # players with score
+            self.size = 1   # size of subtree (including self)
+            self.left = None
+            self.right = None
 
-    def __init__(self):
-        self._root = None
-        self._player_score = {}  # player_id -> current score
+    def __init__(self): # init as empty tree
+        self.root = None
 
-    def _update_size(self, node):
-        left_sz = node.left.size if node.left else 0
-        right_sz = node.right.size if node.right else 0
-        node.size = left_sz + right_sz + node.count
+    def insert(self, score):
+        
+        # set node to root (set starting point)
+        node = self.root
 
-    def _insert(self, node, score):
-        if node is None:
-            return Leaderboard._Node(score)
-        if score < node.score:
-            node.left = self._insert(node.left, score)
-        elif score > node.score:
-            node.right = self._insert(node.right, score)
-        else:
-            node.count += 1
-        self._update_size(node)
-        return node
+        # 1. if tree is empty then set as root
+        if not node:
+            self.root = BST.score_node(score)
+            return
+        
+        # 2. tree is not empty
 
-    def _delete_all(self, node, score):
-        if node is None:
-            return None
-        if score < node.score:
-            node.left = self._delete_all(node.left, score)
-        elif score > node.score:
-            node.right = self._delete_all(node.right, score)
-        else:
-            # remove this node entirely
-            if node.left is None:
-                return node.right
-            if node.right is None:
-                return node.left
-            # two children: replace with in-order successor
-            succ = node.right
-            while succ.left:
-                succ = succ.left
-            node.score, node.count = succ.score, succ.count
-            node.right = self._delete_all(node.right, succ.score)
-        self._update_size(node)
-        return node
+        path = []   # to update size
 
-    def _delete_one(self, node, score):
-        if node is None:
-            return None
-        if score < node.score:
-            node.left = self._delete_one(node.left, score)
-        elif score > node.score:
-            node.right = self._delete_one(node.right, score)
-        else:
-            if node.count > 1:
-                node.count -= 1
+
+        while node:                 # while node is not empty
+
+            # record in path for size update
+            path.append(node)
+
+            # if score is smaller -> go left
+            if score < node.score:
+
+                # if no left child -> insert
+                if not node.left:
+                    node.left = BST.score_node(score)
+                    break
+
+                # if left child exists -> go left
+                node = node.left
+                continue
+
+            # if score is larger -> go right
+            elif score > node.score:
+
+                # if no right child -> insert
+                if not node.right:
+                    node.right = BST.score_node(score)
+                    break
+
+                # if right child exists -> go right
+                node = node.right
+                continue
+            
+            # if score is same -> increase players
+            node.players += 1
+            break
+
+        # Update size
+        for n in reversed(path):
+
+            # defualt not child
+            left_size = 0
+            # but if left child exists then update size
+            if n.left:
+                left_size = n.left.size
+
+            # same to right
+            right_size = 0
+            if n.right:
+                right_size = n.right.size
+
+            # size is updated as: self(=1) + left size + right size
+            n.size = 1 + left_size + right_size
+
+    def delete(self, score):
+
+        # node default
+        node = self.root
+        parent = None   # since root no parent
+        stack = []  # for size update
+
+        # find node
+        while node:
+
+            stack.append(node)  # append not to stack
+
+            if score < node.score:  # score is lower -> go left
+                parent = node
+                node = node.left
+
+            elif score > node.score:    # score is higher ->  go right
+                parent = node
+                node = node.right
+            else:                       # score is same -> found
+                break
+
+        # delete node
+
+        # 1) if score has more than one player
+        if node.players > 1:
+            node.players -= 1   # decrease player by one
+
+        # 2) if single player -> node must be deleted
+
+        # 2-1) if no left child -> replace with right child
+        elif not node.left:
+
+            if not parent:  # if node is root - then set root to right child
+                self.root = node.right 
+
+            elif parent.left == node:   # if node is left child - then set right child is parent left
+                parent.left = node.right
+
+            else:                       # if node is right child - then set right child is parent right
+                parent.right = node.right
+
+            stack.pop() # pop from stack
+
+        # 2-2) if no right child -> replace with left child
+        elif not node.right:    # if no right child
+
+            if not parent:
+                self.root = node.left
+
+            elif parent.left == node:
+                parent.left = node.left
+
             else:
-                if node.left is None:
-                    return node.right
-                if node.right is None:
-                    return node.left
-                succ = node.right
-                while succ.left:
-                    succ = succ.left
-                node.score, node.count = succ.score, succ.count
-                node.right = self._delete_all(node.right, succ.score)
-        self._update_size(node)
-        return node
+                parent.right = node.left
 
-    def _count_higher(self, node, score):
-        if node is None:
-            return 0
-        if score < node.score:
-            right_sz = node.right.size if node.right else 0
-            return right_sz + node.count + self._count_higher(node.left, score)
-        elif score > node.score:
-            return self._count_higher(node.right, score)
-        else:
-            return node.right.size if node.right else 0
+            stack.pop()
 
-    def _find_by_rank(self, node, k):
-        if node is None:
-            return None
-        right_sz = node.right.size if node.right else 0
-        if k <= right_sz:
-            return self._find_by_rank(node.right, k)
-        if k <= right_sz + node.count:
-            return node.score
-        return self._find_by_rank(node.left, k - right_sz - node.count)
+        # 2-3) if both children exist -> find smallest in right subtree
+        else:   
 
-    def add_score(self, player_id, score):
-        # remove old if exists
-        if player_id in self._player_score:
-            old = self._player_score[player_id]
-            self._root = self._delete_one(self._root, old)
-        # insert new
-        self._root = self._insert(self._root, score)
-        self._player_score[player_id] = score
-        higher = self._count_higher(self._root, score)
-        return higher + 1
+            # temp for parent and new node
+            path_to_smallest = []
+            
+            smallest_parent = node   # parent node of smallest node
 
-    def get_rank(self, player_id):
-        if player_id not in self._player_score:
-            return -1
-        score = self._player_score[player_id]
-        higher = self._count_higher(self._root, score)
-        return higher + 1
+            # begin search at right child
+            smallest = node.right    # new = smallest node
 
-    def get_score_by_rank(self, rank):
-        if self._root is None or rank < 1 or rank > self._root.size:
-            return -1
-        res = self._find_by_rank(self._root, rank)
-        return res if res is not None else -1
+            # find smallest (= left-ist)
+            while smallest.left: # while left node exists
 
-    def print_scoreboard(self):
-            # Sort all players by score descending, then by player_id ascending
-            players = sorted(self._scoreboard.items(), key=lambda x: (-x[1], x[0]))
-            for player_id, score in players:
-                print(f"Rank {self.get_rank(player_id)}:\tScore {score}")
+                path_to_smallest.append(smallest_parent)
+
+                smallest_parent = smallest
+                smallest = smallest.left    
+            # --> smallest is left-most node
+
+            path_to_smallest.append(smallest_parent)
+
+            # overwrite deleted node data with smallest node data
+            node.score = smallest.score     # overwrite score
+            node.players = smallest.players # overwrite players with score
+            smallest.players = 0    # set smallest players to 0 == deleting
+
+            stack.extend(path_to_smallest)  # stack = path to node + path to smallest
+
+            # delete node
+            if smallest_parent.left == smallest:    # left child was smallest
+                smallest_parent.left = smallest.right
+            else:
+                smallest_parent.right = smallest.right
+
+        # update size
+        for n in reversed(stack):
+            left_size = 0
+            if n.left:
+                left_size = n.left.size
+
+            right_size = 0
+            if n.right:
+                right_size = n.right.size
+
+            n.size = 1 + left_size + right_size
 
 
 
