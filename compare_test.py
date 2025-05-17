@@ -25,5 +25,5 @@ def compare_files(file1, file2):
 
 if __name__ == "__main__":
     file1 = "mytestout.out"
-    file2 = "test.0.0.out"
+    file2 = "test.0.4.out"
     compare_files(file1, file2)

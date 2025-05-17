@@ -1,5 +1,3 @@
-
-
 class BST:
 
     class score_node:
@@ -281,6 +279,23 @@ class Leaderboard:
                 return node.score
 
         return 1111  # debug
+    
+    def print_scoreboard(self):
+        # Sort players by score descending (and by player_id for ties, if you like)
+        sorted_players = sorted(
+            self.player_scores.items(),
+            key=lambda item: (-item[1], item[0])
+        )
+
+        # Print header
+        print(f"\n{'Player ID':>10}  {'Score':>5}  {'Rank':>4}")
+        print("-" * 24)
+
+        # Print each line
+        for player_id, score in sorted_players:
+            rank = self.get_rank(player_id)
+            print(f"{player_id:>10}  {score:>5}  {rank:>4}")
+
 
 
 # Output specification
@@ -295,27 +310,110 @@ class Leaderboard:
 #   output the score of the player with the given rank, 
 #   or -1 if the rank is invalid, followed by a single newline.
 
+
 if __name__ == "__main__":
 
     leaderboard_instance = Leaderboard()
-    while True:
-        try:
-            user_input = input().split()
-        except EOFError:
-            break  # Stop the loop when input ends
 
-        if not user_input:
-            continue
+    # mode: 1: for output file, 2: print to console, 3: debug to console, 4: debug to file
+    mode = 1
 
-        cmd = user_input[0]
+    
+    with open(r"assignments\Leaderboard\input.in", "r") as file:
+        commands = file.readlines()
 
-        if cmd == "add_score":
-            player_id = int(user_input[1])
-            score = int(user_input[2])
-            print(leaderboard_instance.add_score(player_id, score))
-        elif cmd == "get_rank":
-            player_id = int(user_input[1])
-            print(leaderboard_instance.get_rank(player_id))
-        elif cmd == "get_score_by_rank":
-            rank = int(user_input[1])
-            print(leaderboard_instance.get_score_by_rank(rank))
+    with open("mytestout.out", "w") as output_file:
+        if mode == 1:  # output file only
+            for command in commands:
+                parts = command.strip().split()
+                cmd = parts[0]
+                # print(command.strip())
+                if cmd == "add_score":
+                    player_id = int(parts[1])
+                    score = int(parts[2])
+                    output_file.write(f"{leaderboard_instance.add_score(player_id, score)}\n")
+                    # print(f"{leaderboard_instance.add_score(player_id, score)}")
+                    # leaderboard_instance.print_scoreboard()
+
+                elif cmd == "get_rank":
+                    player_id = int(parts[1])
+                    output_file.write(f"{leaderboard_instance.get_rank(player_id)}\n")
+                    # print(f"{leaderboard_instance.get_rank(player_id)}")
+
+                elif cmd == "get_score_by_rank":
+                    rank = int(parts[1])
+                    output_file.write(f"{leaderboard_instance.get_score_by_rank(rank)}\n")
+                    # print(f"{leaderboard_instance.get_score_by_rank(rank)}")
+                # print("-" * 30)
+        elif mode == 2:  # print to console only
+            for command in commands:
+                parts = command.strip().split()
+                cmd = parts[0]
+                # print(command.strip())
+                if cmd == "add_score":
+                    player_id = int(parts[1])
+                    score = int(parts[2])
+                    print(f"{leaderboard_instance.add_score(player_id, score)}")
+                    # leaderboard_instance.print_scoreboard()
+
+                elif cmd == "get_rank":
+                    player_id = int(parts[1])
+                    print(f"{leaderboard_instance.get_rank(player_id)}")
+
+                elif cmd == "get_score_by_rank":
+                    rank = int(parts[1])
+                    print(f"{leaderboard_instance.get_score_by_rank(rank)}")
+                # print("-" * 30)
+        elif mode == 3:
+            for command in commands:
+                parts = command.strip().split()
+                cmd = parts[0]
+                print("-" * 30)
+                print("\ninput> " + command.strip())
+                if cmd == "add_score":
+                    player_id = int(parts[1])
+                    score = int(parts[2])
+                    print(f"output> {leaderboard_instance.add_score(player_id, score)}")
+                    leaderboard_instance.print_scoreboard()
+
+
+                elif cmd == "get_rank":
+                    player_id = int(parts[1])
+                    print(f"output> {leaderboard_instance.get_rank(player_id)}")
+
+                elif cmd == "get_score_by_rank":
+                    rank = int(parts[1])
+                    print(f"output> {leaderboard_instance.get_score_by_rank(rank)}")
+            print("-" * 30)
+        elif mode == 4:
+            for command in commands:
+                parts = command.strip().split()
+                cmd   = parts[0]
+
+                # separator
+                output_file.write("-" * 30 + "\n")
+                # echo the input
+                output_file.write("input> " + command.strip() + "\n")
+
+                if cmd == "add_score":
+                    pid, sc  = int(parts[1]), int(parts[2])
+                    out_rank = leaderboard_instance.add_score(pid, sc)
+                    output_file.write(f"output> {out_rank}\n")
+                    # now dump the full scoreboard to file
+                    for pid, score in sorted(leaderboard_instance.player_scores.items(),
+                                            key=lambda kv: (-kv[1], kv[0])):
+                        rank = leaderboard_instance.get_rank(pid)
+                        output_file.write(f"Player {pid}: score={score}, rank={rank}\n")
+
+                elif cmd == "get_rank":
+                    pid = int(parts[1])
+                    output_file.write(f"output> {leaderboard_instance.get_rank(pid)}\n")
+
+                elif cmd == "get_score_by_rank":
+                    r = int(parts[1])
+                    output_file.write(f"output> {leaderboard_instance.get_score_by_rank(r)}\n")
+
+            # final separator
+            output_file.write("-" * 30 + "\n")
+
+
