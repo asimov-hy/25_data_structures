@@ -201,17 +201,20 @@ class Leaderboard:
     def add_score(self, player_id, score):
         # if player exists
         if player_id in self.player_scores:
-            # remove old score from BST
-            self.scores.delete(self.player_scores[player_id])
+            
+            # if new score bigger than old
+            old = self.player_scores[player_id]
+            if score > old:
+                # remove old score
+                self.scores.delete(old)
+                # add back new score
+                self.player_scores[player_id] = score
+                self.scores.insert(score)
 
-            # update score
-            self.player_scores[player_id] = score
         else:
-            # add new player
+            # if player does not exist
             self.player_scores[player_id] = score
-
-        # add new score to BST
-        self.scores.insert(score)
+            self.scores.insert(score)
 
         return self.get_rank(player_id)
     
@@ -340,7 +343,7 @@ if __name__ == "__main__":
                     output_file.write(f"{leaderboard_instance.get_rank(player_id)}\n")
                     # print(f"{leaderboard_instance.get_rank(player_id)}")
 
-                elif cmd == "get_score_by_rank":
+                elif cmd == "get_score_by_rank":    
                     rank = int(parts[1])
                     output_file.write(f"{leaderboard_instance.get_score_by_rank(rank)}\n")
                     # print(f"{leaderboard_instance.get_score_by_rank(rank)}")
