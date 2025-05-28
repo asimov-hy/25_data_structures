@@ -45,8 +45,8 @@ if __name__ == "__main__":
     inventory_specs = dict(temp_inventory)
     inventory_data = {key: 0 for key in inventory_specs.keys()}
 
-    print(inventory_specs)
-    print("-"*20)
+    # print(inventory_specs)
+    # print("-"*20)
     # print(inventory_data)
 
     
@@ -92,5 +92,46 @@ if __name__ == "__main__":
         except EOFError:
             break
 
-    print(inventory_size)
-    print(inventory_data)
+    # print(inventory_size)
+    # print(inventory_col)
+    # print(inventory_data)
+
+    # list of items
+    id_list = [item_id for item_id, _ in temp_inventory]
+
+    
+    # track which item is being printed
+    cell = 0
+    item_dat = len(id_list)  # how many items in id_list
+
+    # print inventory_size number of cells
+    for count in range(inventory_size):
+        
+        # no more items to print
+        if cell >= item_dat:
+            print("-", end="")
+
+        # items left to print
+        else:
+            # get item id from id_list
+            item_id = id_list[cell]
+
+            # print ever item in inventory_data from beinnign to end, max is from inventory_specs
+            if inventory_data[item_id] > inventory_specs[item_id]:
+                print(f"({item_id},{inventory_specs[item_id]})", end="")
+                inventory_data[item_id] -= inventory_specs[item_id]
+
+            # remaining items are less than inventory max
+            else:
+                print(f"({item_id},{inventory_data[item_id]})", end="")
+                inventory_data[item_id] = 0
+
+                # move to next item
+                cell += 1
+                
+
+        # if row has been filled, print new line
+        if (count+1) % inventory_col == 0:
+            print()
+        else:
+            print(",", end="")
