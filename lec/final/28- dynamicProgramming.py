@@ -1,3 +1,23 @@
+"""
+Dynamic Programming Examples
+----------------------------
+
+1. Matrix Chain Multiplication (matrix_chain):
+   - Input: list d where matrix A[i] has dimensions d[i] × d[i+1]
+   - Goal: minimize total scalar multiplications for multiplying A0 × A1 × ... × An−1
+   - Returns: table N[i][j] where N[i][j] is the minimum cost to compute A[i..j]
+
+2. Longest Common Subsequence (LCS):
+   - Input: strings X and Y
+   - Goal: compute length of the longest common subsequence
+   - Returns: table L[i][j] with LCS length between X[0..i−1] and Y[0..j−1]
+
+Key Idea:
+- Solve problems by combining optimal solutions to overlapping subproblems.
+- Use a 2D DP table to avoid recomputation and build up the solution efficiently.
+"""
+
+
 def matrix_chain(d):
     """
     Given dimensions d[0..n] where matrix A[i] has dimension d[i] x d[i+1],

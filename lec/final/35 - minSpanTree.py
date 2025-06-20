@@ -1,3 +1,22 @@
+"""
+Prim-Jarník Algorithm for Minimum Spanning Tree (MST)
+------------------------------------------------------
+
+Function:
+- `prim_jarnik_mst(graph)`:
+  1. Initializes all vertices with infinite cost, except one arbitrary start vertex (cost 0).
+  2. Uses an Adaptable Priority Queue to pick the next closest vertex not in the MST.
+  3. For each adjacent vertex, updates the cost and connection edge if a better (lower-weight) edge is found.
+  4. Adds the selected edge to the MST if it connects a new vertex.
+
+Returns:
+- A list of edges forming the MST.
+
+Assumes:
+- Input graph is connected, undirected, and edge weights are non-negative.
+"""
+
+
 def prim_jarnik_mst(graph):
     """
     Compute a minimum spanning tree of a connected, weighted, undirected graph.

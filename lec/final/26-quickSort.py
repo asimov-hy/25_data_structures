@@ -1,3 +1,26 @@
+"""
+Quick Sort and In-Place Quick Sort
+----------------------------------
+
+Functions:
+- `quick_sort(arr)`:
+  1. Base case: if size ≤ 1, return as-is.
+  2. Choose a random pivot.
+  3. Partition into:
+     - L: elements < pivot
+     - E: elements = pivot
+     - G: elements > pivot
+  4. Recursively sort L and G.
+  5. Concatenate sorted L, E, and G.
+
+- `in_place_quick_sort(arr, low, high)`:
+  1. Base case: stop when subarray has ≤ 1 element.
+  2. Choose a random pivot and move it to the end.
+  3. Partition the array (Lomuto partition scheme).
+  4. Recursively sort the left and right subarrays in place.
+"""
+
+
 def quick_sort(arr):
     # 1. Base case: array of size 0 or 1 is already sorted
     if len(arr) <= 1:

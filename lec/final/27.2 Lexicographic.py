@@ -1,3 +1,19 @@
+"""
+Lexicographic Bucket Sort
+--------------------------
+
+Sorts a list of lowercase strings by their first character ('a' to 'z').
+
+Function:
+- `lexicographic_bucket_sort(strings)`:
+  1. Create 26 buckets, one for each letter.
+  2. Place each string into a bucket based on its first character.
+  3. Concatenate buckets to form the sorted list.
+
+Preserves original order within each bucket (stable).
+"""
+
+
 def lexicographic_bucket_sort(strings):
     """
     Bucket Sort for strings based on their first character (assuming lowercase a–z).

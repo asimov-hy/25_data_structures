@@ -1,29 +1,5 @@
-"""
-Adjacency Map Graph Implementation
-----------------------------------
-
-Classes:
-- `Vertex`: Represents a graph node with an associated element.
-- `Edge`: Represents a connection between two vertices, with optional data.
-- `Graph`: Directed or undirected graph using adjacency maps for storage.
-
-Key Methods:
-- `insert_vertex(x)`: Adds a new vertex with element x.
-- `insert_edge(u, v, x)`: Adds an edge from vertex u to vertex v with optional element x.
-- `get_edge(u, v)`: Returns the edge from u to v if it exists.
-- `incident_edges(v)`: Iterates over all edges connected to vertex v.
-- `vertices()`, `edges()`: Return all vertices or edges.
-- `vertex_count()`, `edge_count()`: Return counts of vertices and edges.
-- `degree(v)`: Returns number of incident edges (outgoing by default).
-- `is_directed()`: Checks if the graph is directed.
-
-Design:
-- Uses hashable Vertex objects as dictionary keys.
-- For undirected graphs, outgoing and incoming maps are aliased.
-"""
-
 class Graph:
-    """Representation of a simple graph using an adjacency map."""
+    """Representation of a simple weighted graph using an adjacency map."""
 
     class Vertex:
         """Lightweight vertex structure for a graph."""
@@ -42,14 +18,14 @@ class Graph:
             return hash(id(self))
 
     class Edge:
-        """Lightweight edge structure for a graph."""
-        __slots__ = '_origin', '_destination', '_element'
+        """Lightweight weighted edge structure for a graph."""
+        __slots__ = '_origin', '_destination', '_weight'
 
-        def __init__(self, u, v, x):
-            # 1. Store origin and destination vertices and associated element
+        def __init__(self, u, v, weight):
+            # 1. Store origin and destination vertices and the edge weight
             self._origin = u
             self._destination = v
-            self._element = x
+            self._weight = weight
 
         def endpoints(self):
             # 1. Return (origin, destination) as a tuple
@@ -59,9 +35,9 @@ class Graph:
             # 1. Given a vertex v, return the other endpoint of the edge
             return self._destination if v is self._origin else self._origin
 
-        def element(self):
-            # 1. Return the element stored in this edge
-            return self._element
+        def weight(self):
+            # 1. Return the weight stored in this edge
+            return self._weight
 
         def __hash__(self):
             # 1. Make Edge hashable using a tuple of its endpoints
@@ -131,9 +107,9 @@ class Graph:
             self._incoming[v] = {}
         return v
 
-    def insert_edge(self, u, v, x=None):
-        # 1. Create a new Edge between u and v with optional element x
-        e = self.Edge(u, v, x)
+    def insert_edge(self, u, v, weight=1.0):
+        # 1. Create a new Edge between u and v with the specified weight
+        e = self.Edge(u, v, weight)
         # 2. Register the edge in the outgoing map of u
         self._outgoing[u][v] = e
         # 3. Register the edge in the incoming map of v

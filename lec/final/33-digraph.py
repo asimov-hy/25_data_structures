@@ -1,3 +1,22 @@
+"""
+Topological Sort (DFS-based) for Directed Acyclic Graphs (DAGs)
+---------------------------------------------------------------
+
+Function:
+- `topological_sort(graph)`:
+  1. Performs DFS on each unvisited vertex.
+  2. Appends each vertex after fully exploring its descendants (post-order).
+  3. Reverses the result to produce a valid topological ordering.
+
+Returns:
+- A list of vertices in topologically sorted order.
+
+Note:
+- Assumes input is a directed acyclic graph (DAG).
+- Handles disconnected graphs by initiating DFS from all unvisited nodes.
+"""
+
+
 def topological_sort(graph):
     """
     Return a list of vertices in topologically sorted order (only for DAGs).

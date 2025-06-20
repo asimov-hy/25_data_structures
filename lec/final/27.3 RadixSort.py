@@ -1,3 +1,20 @@
+"""
+Radix Sort for Fixed-Length Strings
+-----------------------------------
+
+Sorts a list of lowercase strings (same length) in lexicographic order.
+
+Function:
+- `radix_sort(strings)`:
+  1. Iterate from the last character to the first (right to left).
+  2. For each character position:
+     - Distribute strings into 26 buckets based on the current character.
+     - Concatenate buckets to update the list.
+
+Uses stable bucket sort at each character position to preserve previous order.
+"""
+
+
 def radix_sort(strings):
     """
     Radix Sort for fixed-length lowercase strings (e.g., 'cat', 'dog').

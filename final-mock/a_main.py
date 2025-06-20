@@ -1,9 +1,11 @@
 from io_handler import IOHandler
 from a_skeleton import BinarySearchTreeSkeleton
 from a1 import BinarySearchTree
-from a2 import search
+from a2 import search, search_rank
+from a3 import min_tree, max_tree
+from a4 import delete  # ✅ Corrected: delete now comes from a4
 
-INPUT_FILE = 'sample/a2.in'
+INPUT_FILE = 'sample/a4.in'
 
 
 #### DO NOT MODIFY ####
@@ -11,15 +13,21 @@ def test_bst(tree, command, data):
     if command == 'insert':
         tree.insert(int(data[0]))
         return tree, '-'
-    elif command == 'search':
-        return tree, str(tree.search(int(data[0])))
-    elif command == 'min':
-        return tree, str(tree.min())
-    elif command == 'max':
-        return tree, str(tree.max())
     elif command == 'delete':
-        tree.delete(int(data[0]))
+        delete(tree, int(data[0]))  # ✅ use delete from a4
         return tree, '-'
+    elif command == 'search':
+        node = search(tree, int(data[0]))
+        return tree, str(node.key) if node else 'None'
+    elif command == 'search_rank':
+        rank = search_rank(tree, int(data[0]))
+        return tree, str(rank)
+    elif command == 'min':
+        result = min_tree(tree)
+        return tree, str(result) if result is not None else 'None'
+    elif command == 'max':
+        result = max_tree(tree)
+        return tree, str(result) if result is not None else 'None'
     elif command == 'print':
         return tree, str(tree)
     else:
@@ -34,13 +42,12 @@ if __name__ == '__main__':
     output_data = []
     tree = BinarySearchTree()
 
-    
     for line in input_lines:
         parts = line.strip().split()
         if not parts:
             continue
 
-        mode = parts[0]  # e.g., 'bst'
+        mode = parts[0]
         if mode != 'bst':
             raise ValueError(f"Unknown mode: {mode}")
 

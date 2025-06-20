@@ -1,3 +1,23 @@
+"""
+Dijkstra’s Shortest Path Algorithm
+----------------------------------
+
+Function:
+- `shortest_path_lengths(graph, source)`:
+  1. Initializes all distances from `source` to ∞, except 0 for the source.
+  2. Uses an Adaptable Priority Queue (min-heap) to explore the closest vertex.
+  3. For each neighbor, updates distance if a shorter path is found.
+  4. Finalized distances are stored in `cloud`.
+
+Returns:
+- A dictionary mapping each reachable vertex to its shortest-path distance from the source.
+
+Assumes:
+- All edge weights are non-negative.
+- Graph supports `incident_edges(v)`, `opposite(v)`, and `element()` for weights.
+"""
+
+
 def shortest_path_lengths(graph, source):
     """
     Compute shortest-path distances from source to all reachable vertices.

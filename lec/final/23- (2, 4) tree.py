@@ -1,3 +1,26 @@
+"""
+Tree24 (2-4 Tree) Implementation
+-------------------------------
+- Multi-way balanced search tree.
+- Each node holds 1–3 sorted keys, 0–4 children.
+- All leaves are at the same depth.
+
+Supports:
+- insert(key): Adds key to correct leaf, splits if overfull.
+- search(key): Recursively finds key or returns None.
+
+Overflow Handling:
+- Split node on 4 keys.
+- Promote middle key to parent.
+- Split may propagate up; new root created if needed.
+
+Maintains:
+- Logarithmic height.
+- Sorted order.
+- Automatic balance via key promotion.
+"""
+
+
 class Tree24:
     class Node:
         def __init__(self, parent=None):

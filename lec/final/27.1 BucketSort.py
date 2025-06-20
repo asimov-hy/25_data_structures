@@ -1,3 +1,19 @@
+"""
+Bucket Sort for Integer Keys
+----------------------------
+
+Sorts a list of (key, value) pairs where keys are in the range [0, N−1].
+
+Function:
+- `bucket_sort(S, N)`:
+  1. Create N empty buckets.
+  2. Distribute each (key, value) pair into the bucket indexed by its key.
+  3. Concatenate all buckets back into the original list `S`.
+
+Maintains stability by preserving the original order within each bucket.
+"""
+
+
 # multiple buckets, sorts each bucket individually (often with another algorithm), and then concatenates all buckets to produce the sorted output.
 # 12, 45, 24, 68, -> sort based on first digit, then second digit....
 

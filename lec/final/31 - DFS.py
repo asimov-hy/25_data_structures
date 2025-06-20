@@ -1,3 +1,30 @@
+"""
+Depth-First Search (DFS) Utilities for Graph Traversal
+-------------------------------------------------------
+
+1. `DFS(graph, start_vertex, visited=None)`:
+   - Basic DFS that marks all reachable vertices starting from `start_vertex`.
+   - Uses a set to track visited vertices.
+
+2. `DFS(graph, start_vertex, discovery_map)`:
+   - DFS that records discovery edges in `discovery_map` (discovered[v] = edge).
+   - Useful for building a DFS tree or understanding traversal structure.
+
+3. `path_dfs(graph, v, goal, discovered, path)`:
+   - DFS variant to find a path from vertex `v` to `goal`.
+   - Appends path into `path` list and returns `True` if found.
+
+4. `cycle_dfs(graph, v, discovered, parent, stack, backtrack)`:
+   - DFS variant to detect a simple cycle.
+   - Uses `parent` and `stack` to trace back when a cycle is found.
+   - Stores cycle vertices in `backtrack` list.
+
+All functions assume the graph supports:
+- `incident_edges(v)` to get edges connected to vertex `v`
+- `opposite(v)` to get the opposite endpoint of an edge
+"""
+
+
 def DFS(graph, start_vertex, discovery_map):
     """
     Perform DFS traversal on the undiscovered portion of the graph starting at 'start_vertex'.

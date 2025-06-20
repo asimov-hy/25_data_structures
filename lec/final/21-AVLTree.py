@@ -1,3 +1,31 @@
+"""
+AVL Tree Implementation
+-----------------------
+
+This class defines a self-balancing Binary Search Tree (BST) using the AVL algorithm.
+Each node tracks its height to maintain balance, ensuring O(log n) time for insertions, deletions, and lookups.
+
+Classes:
+- AVLNode: A BST node with an additional height attribute and parent pointer.
+- AVL: The AVL tree with balancing logic.
+
+Core Functions:
+- search(key): Standard BST search. Returns the node with the given key or None.
+- insert(key): Recursively inserts a node, updates heights, and rebalances the tree as needed.
+- delete(key): Removes a node, reuses in-order successor if necessary, and rebalances during backtracking.
+- _rebalance(node): Checks node balance factor and applies single or double rotations.
+- _rotate_left/_rotate_right(): AVL tree rotations with height and parent updates.
+- _get_height(node): Returns height of node, 0 if None.
+- _get_balance(node): Balance factor = left height - right height.
+- _min_value_node(node): Finds the in-order successor (leftmost child of right subtree).
+
+Balance Policy:
+- After insert/delete, balance factor is used to determine if a node is unbalanced:
+  - +2 → left heavy; -2 → right heavy.
+  - Depending on child balance, performs LL, LR, RR, or RL rotation.
+"""
+
+
 class AVLNode:
     def __init__(self, key, parent=None):
         self.key = key

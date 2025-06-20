@@ -5,7 +5,16 @@ bst insert 3
 bst insert 7
 bst insert 12
 bst insert 18
+bst print
+
 bst search 7
+bst search_rank 7
+
 bst search 10
+bst search_rank 10
+
 bst search 1
+bst search_rank 1
+
 bst search 20
+bst search_rank 20

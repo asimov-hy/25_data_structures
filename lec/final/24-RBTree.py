@@ -1,3 +1,34 @@
+"""
+Red-Black Tree Implementation
+-----------------------------
+A self-balancing binary search tree with the following properties:
+1. Every node is either red or black.
+2. The root is always black.
+3. Red nodes cannot have red children (no two reds in a row).
+4. Every path from a node to its descendant NIL nodes contains the same number of black nodes.
+
+Components:
+-----------
+- `RBNode`: Holds key, color, parent, left/right child.
+- `NIL`: Sentinel black node used instead of None.
+
+Key Methods:
+------------
+- `insert(key)`: Standard BST insert followed by rebalancing using `_fix_insert`.
+- `_fix_insert(node)`: Restores Red-Black properties using rotations and recoloring.
+- `_rotate_left` / `_rotate_right`: Standard BST rotations with parent updates.
+- `search(key)`: Standard BST search.
+- `inorder(node)`: In-order traversal printing keys and colors.
+
+Balancing:
+----------
+- Insertions may temporarily violate Red-Black rules.
+- Rebalancing fixes double-red violations using three main cases: 
+  1. Recoloring (uncle is red),
+  2. Rotation (node is inside or outside grandparent's subtree).
+"""
+
+
 class RBNode:
     def __init__(self, key, color='red', parent=None):
         self.key = key               # Value stored in the node

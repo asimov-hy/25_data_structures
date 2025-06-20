@@ -1,3 +1,28 @@
+"""
+Merge Sort Implementation
+--------------------------
+A divide-and-conquer sorting algorithm with O(n log n) time complexity.
+
+Functions:
+----------
+- `merge_sort(arr)`:
+  1. Recursively divides the input list into halves.
+  2. Sorts each half.
+  3. Merges the sorted halves into a single sorted list.
+
+- `merge(left, right)`:
+  - Merges two sorted lists into one sorted list.
+  - Compares elements from both sides and merges in ascending order.
+  - Appends any remaining elements after one side is exhausted.
+
+Properties:
+-----------
+- Stable sort (preserves order of equal elements).
+- Not in-place (uses extra memory for merging).
+- Guarantees consistent performance (O(n log n) worst case).
+"""
+
+
 def merge_sort(arr):
     # 1. Base case: list of size 0 or 1 is already sorted
     if len(arr) <= 1:

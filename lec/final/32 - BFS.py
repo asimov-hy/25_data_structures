@@ -1,3 +1,20 @@
+"""
+Breadth-First Search (BFS) for Graph Traversal
+----------------------------------------------
+
+Function:
+- `BFS(graph, start_vertex, discovery_tree)`:
+  1. Begins at `start_vertex`.
+  2. Explores the graph level by level using a queue-like structure.
+  3. For each newly discovered vertex, records the edge that led to it in `discovery_tree`.
+
+Notes:
+- `discovery_tree` maps each vertex to the edge used to discover it.
+- The root `start_vertex` should be pre-mapped to `None` before calling.
+- Operates in-place; useful for building shortest-path trees in unweighted graphs.
+"""
+
+
 def BFS(graph, start_vertex, discovery_tree):
     """
     Perform BFS traversal of the graph starting at start_vertex.

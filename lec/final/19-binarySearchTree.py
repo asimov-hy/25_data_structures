@@ -1,3 +1,26 @@
+"""
+Binary Search Tree (BST) Implementation
+---------------------------------------
+
+Classes:
+- BSTNode: Represents a node with key, left/right children, and parent pointer.
+- BST: Manages the tree with basic operations.
+
+Functions:
+- search(key): Traverses the tree to find a node with the given key.
+- insert(key): Adds a new node in the correct position while maintaining BST order.
+- delete(key): Removes a node by handling 3 cases (2 children, 1 child, no child).
+- preorder(): Prints nodes in Root -> Left -> Right order.
+- inorder(): Prints nodes in Left -> Root -> Right order.
+- postorder(): Prints nodes in Left -> Right -> Root order.
+
+Notes:
+- Uses parent pointers to simplify deletion.
+- Traversal methods are recursive and start at root if no node is passed.
+"""
+
+
+
 class BSTNode:
     def __init__(self, key, parent=None):
         self.key = key
