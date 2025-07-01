@@ -1,0 +1,10 @@
+base2
+
+upsert 5 1
+upsert 3 9
+upsert 1 6
+upsert 4 2
+upsert 7 8
+upsert 6 1
+upsert 5 2
+print
